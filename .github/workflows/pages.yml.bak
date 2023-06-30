@@ -1,9 +1,10 @@
+# 当部署作业完成后，产生的页面会放在储存库中的 gh-pages 分支
 name: Pages
 
 on:
   push:
     branches:
-      - main # default branch
+      - main # default branch （the source branch that needs compile）
 
 jobs:
   pages:

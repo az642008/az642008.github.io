@@ -6,7 +6,7 @@
 title: az642008的博客
 subtitle: '一个有趣的人'
 description: '有趣的人，干有趣的事'
-keywords: IT,blog
+keywords: IT,blog,Python,GoLang,Java
 author: az642008
 language: zh-CN
 timezone: 'Asia/Shanghai'
@@ -97,7 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: a8-fluid
+theme: fluid
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
