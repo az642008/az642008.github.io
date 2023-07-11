@@ -1,0 +1,830 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" >
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="金开">
+  <meta name="keywords" content="IT,blog,Python,GoLang,Java,JavaScript,Web,hexo,fluid,waline,金开,博客,az642008">
+  
+    <meta name="description" content="汽水包口味丰富，麻辣粉丝、莲藕、白萝卜等六七种，都只要1元一个，感叹我们小城市的物价就是低，门口就是早点摊，就是方便。我的最爱是麻辣粉丝味，下次带你吃香葱猪肉锅盔。">
+  
+  
+  
+  <title>金开日志-汽水包-202307.x - 金开的博客</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/fancybox//3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/a8.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"az642008.top","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":"d934838af4574f9d7a68991812289b1e","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"N5FPM59BLRf3hgdGJ2GZ4tnk-MdYXbMMI","app_key":"gqjBGc1Tjk3EogbtUTKe2wfH","server_url":"https://leancloud1.az642008.top","path":"window.location.pathname","ignore_local":true}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.min.js" ></script>
+  <script  src="/js/color-schema.min.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?d934838af4574f9d7a68991812289b1e";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 40vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>金开的博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于我</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     >
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.75);padding-top: 40px;">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">金开日志-汽水包-202307.x</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        金开
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-10 10:37" pubdate>
+          2023年7月10日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar category-bar" style="margin-right: -1rem">
+    
+
+
+
+
+
+<div class="category-list">
+  
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item 
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="我的日志"
+        id="heading-39889a37516061f7524b53a3ab2beeab" role="tab" data-toggle="collapse" href="#collapse-39889a37516061f7524b53a3ab2beeab"
+        aria-expanded="true"
+      >
+        我的日志
+        <span class="list-group-count">(1)</span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+      <div class="category-collapse collapse show" id="collapse-39889a37516061f7524b53a3ab2beeab"
+           role="tabpanel" aria-labelledby="heading-39889a37516061f7524b53a3ab2beeab">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/articles/az642008_jinkai-blog-buns_with_vermicelli.html" title="金开日志-汽水包-202307.x"
+           class="list-group-item list-group-item-action
+           active">
+          <span class="category-post">金开日志-汽水包-202307.x</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">金开日志-汽水包-202307.x</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="23-7-x-回家见闻"><a href="#23-7-x-回家见闻" class="headerlink" title="23.7.x 回家见闻"></a>23.7.x 回家见闻</h3><blockquote>
+<p>7月初临时回了趟家，看望了下生病的老妈</p>
+</blockquote>
+<h4 id="汽水包"><a href="#汽水包" class="headerlink" title="汽水包"></a>汽水包</h4><p><img src="https://s1.ax1x.com/2023/07/11/pCWk1bV.jpg" srcset="/img/loading.gif" lazyload alt="汽水包" title="封面图 汽水包"></p>
+<p>封面故事</p>
+<p>汽水包口味丰富，麻辣粉丝、莲藕、白萝卜等六七种，都只要1元一个，感叹我们小城市的物价就是低，门口就是早点摊，就是方便。我的最爱是麻辣粉丝味，下次带你吃香葱猪肉锅盔。</p>
+<h4 id="面盆里的泥巴水"><a href="#面盆里的泥巴水" class="headerlink" title="面盆里的泥巴水"></a>面盆里的泥巴水</h4><p>每次回家，发现家里的面盆总会残留泥巴水，台面也会有泥水点点；</p>
+<p>我一般是自己就帮忙清理掉，给自己也给爸妈一个好心情吧。</p>
+<p>回家第5天，我给老爸打下手，给人家上门搬砖；</p>
+<p>虽然我只是帮忙递工具，搬杂物，但是体力劳动其实也要求集中注意力，外加屋内闷热不通风，一天下来也是物理上的灰头土脸，筋疲力尽。</p>
+<p>回到家，清水擦脸，用肥皂洗手、洗胳膊，洗完也到处都是泥水点点了，回应了开头。</p>
+<p>这说明，面盆泥水点点其实和好心情无关，只是一种自然的存在。外来的人，才会觉得它影响心情。</p>
+<h4 id="8毛5一斤的西瓜"><a href="#8毛5一斤的西瓜" class="headerlink" title="8毛5一斤的西瓜"></a>8毛5一斤的西瓜</h4><p>在杭州待过的几年，印象里买雪糕、西瓜的次数屈指可数。雪糕是因为没有想吃，西瓜是应该太贵。</p>
+<p>有一次特地选了个大西瓜，称完说45元，我才问了下价格“麒麟瓜4.5元&#x2F;斤”，肉疼忍着买下了。后来买瓜就学会了问价格、挑大小了。</p>
+<p>这次是和爸妈打扫了一天位于城中村的自家“豪宅”，也算是体力劳动了一整天；老爸有事先走了，我用电动车载老妈回家。</p>
+<p>快到家的路口，西瓜摊主吆喝“8毛一斤，8毛一斤”，还便宜2毛。遂称了一个，老板说包甜，不甜不要钱，我们就顺便让老板破开；结果西瓜瓤暗红，估计放的时间久了。老板就没了底气，嘟嚷这给我们换一个。我们摆摆手，就溜了。</p>
+<p>把我妈送到家，我骑着车继续买瓜，发现这边路边摊只有1块一斤的了。</p>
+<p>让老板挑一个中等的，老板反问他有个摔裂开的瓜，给我算便宜一点，我瞅了一眼，看起来比较新鲜，就勉强答应了。“8块3，你给7块算了”</p>
+<p>到家切开，感觉颜色不太好看，也是久放的瓜，不过还比较甜，只能闭着眼睛吃了。</p>
+<p>我妈说我是卖了个人情给他。</p>
+<p>写此文的时候，我算了下，<code>7/8.3=0.843</code>，算作8毛5一斤。</p>
+<p>另外，我意识到像我们这样三四线的小城市，也是有城中村的，毕竟无论购买自住，还是租住都便宜许多。便宜的原因是它没有产权证，建设成本地，供给足。</p>
+<h4 id="没有气的电动车"><a href="#没有气的电动车" class="headerlink" title="没有气的电动车"></a>没有气的电动车</h4><p>第二天继续打扫完城中村“豪宅”，返回路上，发现电动车漏气骑不动了。</p>
+<p>这辆“破电动”已经开了6年了，电池都换了两轮，是挺旧的了。特别是座椅完全没弹性了，平地上骑车，都膈得屁股疼。</p>
+<p>没办法，给老爸打电话；他带来个后台支撑小拖板，可以让电动车后轮免着地推着走，让我先推回家再修；结果发现这个小拖板不好使。万幸后轮还有一点气，还能推动。没办法，我就顶着太阳推车了。</p>
+<p>灵机一动，其实可以碰到修车店，修好再回去也一样。高温下推了10分钟，遇到了修车店。老板忙着在电脑上打扑克，火急火燎的说先打气试试，问上次打气是什么时候，打完气结果没问题，就让我继续骑，回电脑继续专心打扑克了。</p>
+<p>所以电动车是没问题，它只是缺人打气了。我也何尝不是呢。</p>
+<h4 id="变好吃了"><a href="#变好吃了" class="headerlink" title="变好吃了"></a>变好吃了</h4><p>这次还有一点感受是，老妈做的饭变好吃了。以前觉得是不难吃，但也不算好吃。这次明显觉得是她做的什么菜都合我的胃口，都比较好吃。觉得很神奇，我也夸做的好吃了，老妈不知是没听到，也没什么回应。</p>
+<p>写此文时，我在想是不是因为过去一年都在吃面条的缘故，胃口变淡了，吃其他都觉得好吃呢；</p>
+<p>吃了很久的面条和自制的简易煲仔饭，我并不觉得悲伤。虽然当时的女朋友有多次问我吃的什么，我都回答是吃的面条，感觉她都有点鄙夷你，后面就都不问了，我也感觉很平淡，没感觉是丢脸的事。</p>
+<p>我或许没有做饭的天赋，煮饭都有过几次夹生，也只有电饭煲，和简陋的调料。</p>
+<p>算是“自食其果”吧，我应得的，没有感觉到苦；只是在提示自己，吃这些苦也没有意义，你要尽快结束现状。</p>
+<h4 id="一些食物"><a href="#一些食物" class="headerlink" title="一些食物"></a>一些食物</h4><p><img src="https://s1.ax1x.com/2023/07/11/pCWkQuq.jpg" srcset="/img/loading.gif" lazyload alt="蒸芋头" title="蒸芋头"><br><img src="https://s1.ax1x.com/2023/07/11/pCWklD0.jpg" srcset="/img/loading.gif" lazyload alt="藕带" title="藕带"></p>
+<p>拍照的时候，我是觉得它们太好吃了，要拍照纪念存档下。<br>写此文时再看，却是叹息了，这么好吃的饭吃一次少一次，珍惜当下。<br>反而觉察出，自己心态上的低落和转变。</p>
+<h3 id="23-7-x-思念"><a href="#23-7-x-思念" class="headerlink" title="23.7.x 思念"></a>23.7.x 思念</h3><p>说实话，和她分开的这一小段时间，是有思念的。有时重，有时轻。</p>
+<p>更多的是让理智压制情感，否定总总过往细节。</p>
+<p>甚至有过幻想，晚上回家时，门口会坐着一个啜泣的小女孩等我回家，我们再次和好。</p>
+<p>因为有一个晚春的夜晚，寒意未散，我也坐着在她楼下等，只是她不注意看手机，我等到最后，才终于等到。</p>
+<p>这次我觉得我是等不到这样的小女孩的，因为她的性格就不是如此。</p>
+<p>所以我愈发觉得，过往的总总选择是错的。</p>
+<p>以前我给自己的信念是，当我把那些痛苦、难过的事写下事，它们也就烟消云散，从我脑海一扫而空了。</p>
+<p>现在，这份思念也让它戛然而止吧。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%88%91%E7%9A%84%E6%97%A5%E5%BF%97/" class="category-chain-item">我的日志</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%A5%E5%B8%B8%E9%9A%8F%E7%AC%94/">#日常随笔</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>金开日志-汽水包-202307.x</div>
+      <div>https://az642008.top/articles/az642008_jinkai-blog-buns_with_vermicelli.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>金开</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023-07-10 10:37:48</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>更新于</div>
+          <div>2023-07-11 15:37:29</div>
+        </div>
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="ND - 禁止演绎">
+                    <i class="iconfont icon-nd"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/articles/blog_config_archive.html" title="博客配置及定制">
+                        <span class="hidden-mobile">博客配置及定制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createCssLink('https://lib.baomitu.com/waline/2.14.1/waline.min.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/waline/2.14.1/waline.min.js', function() {
+        const locale = {
+          nick: '昵称*',
+          mail: '邮箱*',
+          level0: 'Level 0',
+          level1: 'Level 1',
+          level2: 'Level 2',
+          level3: 'Level 3',
+          level4: 'Level 4',
+          level5: 'Level 5'
+        };
+        var options = Object.assign(
+          {"serverURL":"https://vercel-leancloud.az642008.top","path":"window.location.pathname","meta":["nick","mail"],"requiredMeta":["nick","mail"],"lang":"zh-CN","emoji":false,"dark":"html[data-user-color-scheme=\"dark\"]","wordLimit":800,"pageSize":10},
+          {
+            el: '#waline',
+            path: window.location.pathname,
+            locale,
+            pageSize: 10,
+            imageUploader: false,
+            highlighter: false,
+            texRenderer: false,
+            copyright: false,
+          }
+        )
+        Waline.init(options);
+
+        Fluid.utils.waitElementVisible('#waline', () => {
+          $("#wl-nick" ).attr("placeholder" , "nickname" );
+          $("#wl-mail" ).attr("placeholder" , "email" );
+          $("#wl-edit" ).attr("placeholder" , "欢迎评论\r\n（审核通过后，评论才可见）" );
+        });
+
+        /*
+          Fluid.utils.waitElementVisible('#waline .vcontent', () => {
+              var imgSelector = '#waline .vcontent img:not(.vemoji)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+          });
+        */
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="#" target="_blank" rel="nofollow noopener"><span>I</span></a> <i class="iconfont icon-love"></i> <a href="#" target="_blank" rel="nofollow noopener"><span>U</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="/sitemap.xml" target="_blank">站点地图</a>
+  </span>
+  <span>
+    <a href="https://beian.miit.gov.cn" target="_blank" rel="nofollow noopener norefferrer">
+      浙ICP备17023060号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="https://beian.miit.gov.cn"
+          rel="nofollow noopener norefferrer"
+          class="beian-police"
+          target="_blank"
+        >
+          
+          <span>浙公网安备 33010802008269号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+
+<script  src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+        <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.staticfile.org/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.bootcdn.net/ajax/libs/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.bootcdn.net/ajax/libs/fancybox//3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
