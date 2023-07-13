@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>金开的分布式系统知识备忘录</title>
+    <link href="/articles/tech_distributed_system.html"/>
+    <url>/articles/tech_distributed_system.html</url>
+    
+    <content type="html"><![CDATA[<h2 id="4种分布式限流算法"><a href="#4种分布式限流算法" class="headerlink" title="4种分布式限流算法"></a>4种分布式限流算法</h2><p class="note note-info">限流和熔断有什么区别？</p>限流发生在流量进来前；熔断故障应对机制，发生在流量进来后。<h3 id="1-固定窗口限流"><a href="#1-固定窗口限流" class="headerlink" title="1 固定窗口限流"></a>1 固定窗口限流</h3><p>原理：把时间划分为固定的时间窗口，每个窗口内允许的请求次数设置限制</p><p>简单实现：基于Redisson实现，可以在每个窗口期内，通过incrementAndGet操作来统计请求的数量</p><p>优点：优点是实现简单，占用空间小</p><p>缺点：处理不平滑，没法限制突发流量</p><h3 id="2-滑动窗口限流"><a href="#2-滑动窗口限流" class="headerlink" title="2 滑动窗口限流"></a>2 滑动窗口限流</h3><p>原理：将一个大的时间窗口划分为多个小的时间窗口，每个小的窗口都有独立的计数。请求过来的时候，判断请求的次数是否超过整个窗口的限制。窗口的移动是每次向前滑动一个小的单元窗口。</p><p>滑的格子越多，那么整体的滑动就会越平滑，限流的效果就会越精准。</p><p>简单实现：使用Redis的有序集合（zset）结构，时间戳+唯一id作为score和member，有请求过来的时候，就把当前时间戳添加到有序集合里。</p><p>实现流程：</p><ol><li>获取请求的时间戳</li><li>计算出起始时间戳</li><li>移除集合里窗口外的时间戳</li><li>将当前时间戳作为score,也作为member，加入集合</li><li>使用集合的元素个数，作为请求计数</li><li>是否超过限流阈值，超过则限流</li></ol><p>优点：实现简单，限流较平滑</p><p>缺点：性能不高，较耗内存</p><h3 id="3-漏桶限流"><a href="#3-漏桶限流" class="headerlink" title="3 漏桶限流"></a>3 漏桶限流</h3><p>功能：网络流量整形（Traffic Shaping）、速度限制（Rate Limiting）</p><p>原理：像水一样以任意速度注入漏桶，而桶会按照固定的速率将水漏掉。</p><p>简单实现：使用RScoredSortedSet+ZREMRANGEBYSCORE</p><p>实现流程-限流判断：</p><ol><li>获取当前时间</li><li>检查桶是否已满，未满则增加当前时间，否则触发限流</li></ol><p>实现流程-定时任务滴水（每个周期执行，如每秒执行）：</p><ol><li>获取当前时间</li><li>计算过期时间</li><li>删除过期时间的元素</li></ol><p>优点：有效防止网络拥塞，实现也比较简单</p><p>缺点：出水速率是固定的，突然来了大量的请求，只能丢弃，没法充分利用系统资源</p><h3 id="4-令牌桶限流"><a href="#4-令牌桶限流" class="headerlink" title="4 令牌桶限流"></a>4 令牌桶限流</h3><blockquote><p>令牌桶算法是对漏桶算法的一种改进（Redission提供了令牌桶算法的实现）</p></blockquote><p>原理：系统以一种固定的速率向桶中添加令牌，每个请求在发送前都需要从桶中取出一个令牌，只有取到令牌的请求才被通过</p><p>简单实现：基于Redisson实现，</p><p>实现流程：</p><ol><li>判断有没有被限流，有则直接返回</li><li>判断令牌桶是否存在，不存在则先创建令牌桶，然后扣减令牌返回</li><li>判断是否需要投放令牌，不需要则直接扣减令牌返回，（需要则先投放令牌再扣减令牌）</li><li>计算从上次请求到本次请求时间间隔，获取桶内令牌数</li><li>若达到发令牌的时间阈值，计算可增加的令牌数</li><li>减去本次消耗的令牌数，剩余令牌数小于0，则触发限流</li><li>更新桶中的令牌数、记录本次的请求时间戳</li></ol><p>优点：令牌桶算法允许请求以任意速率发送，只要桶中有足够的令牌。</p><h3 id="其他开源限流工具"><a href="#其他开源限流工具" class="headerlink" title="其他开源限流工具"></a>其他开源限流工具</h3><ul><li>Guava RateLimiter ，基于令牌桶算法限流，当然是单机的；</li><li>Sentinel ，基于滑动窗口限流，支持单机，也支持集群</li><li>网关限流，很多网关自带限流方法，比如Spring Cloud Gateway、Nginx</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>分布式技术专栏</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>分布式系统</tag>
+      
+      <tag>限流</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>金开日志-汽水包-202307.x</title>
+    <link href="/articles/az642008_jinkai-blog-buns_with_vermicelli.html"/>
+    <url>/articles/az642008_jinkai-blog-buns_with_vermicelli.html</url>
+    
+    <content type="html"><![CDATA[<h3 id="23-7-x-回家见闻"><a href="#23-7-x-回家见闻" class="headerlink" title="23.7.x 回家见闻"></a>23.7.x 回家见闻</h3><blockquote><p>7月初临时回了趟家，看望了下生病的老妈</p></blockquote><h4 id="汽水包"><a href="#汽水包" class="headerlink" title="汽水包"></a>汽水包</h4><p><img src="https://s1.ax1x.com/2023/07/11/pCWk1bV.jpg" alt="汽水包" title="封面图 汽水包"></p><p>封面故事</p><p>汽水包口味丰富，麻辣粉丝、莲藕、白萝卜等六七种，都只要1元一个，感叹我们小城市的物价就是低，门口就是早点摊，就是方便。我的最爱是麻辣粉丝味，下次带你吃香葱猪肉锅盔。</p><h4 id="面盆里的泥巴水"><a href="#面盆里的泥巴水" class="headerlink" title="面盆里的泥巴水"></a>面盆里的泥巴水</h4><p>每次回家，发现家里的面盆总会残留泥巴水，台面也会有泥水点点；</p><p>我一般是自己就帮忙清理掉，给自己也给爸妈一个好心情吧。</p><p>回家第5天，我给老爸打下手，给人家上门搬砖；</p><p>虽然我只是帮忙递工具，搬杂物，但是体力劳动其实也要求集中注意力，外加屋内闷热不通风，一天下来也是物理上的灰头土脸，筋疲力尽。</p><p>回到家，清水擦脸，用肥皂洗手、洗胳膊，洗完也到处都是泥水点点了，回应了开头。</p><p>这说明，面盆泥水点点其实和好心情无关，只是一种自然的存在。外来的人，才会觉得它影响心情。</p><h4 id="8毛5一斤的西瓜"><a href="#8毛5一斤的西瓜" class="headerlink" title="8毛5一斤的西瓜"></a>8毛5一斤的西瓜</h4><p>在杭州待过的几年，印象里买雪糕、西瓜的次数屈指可数。雪糕是因为没有想吃，西瓜是应该太贵。</p><p>有一次特地选了个大西瓜，称完说45元，我才问了下价格“麒麟瓜4.5元&#x2F;斤”，肉疼忍着买下了。后来买瓜就学会了问价格、挑大小了。</p><p>这次是和爸妈打扫了一天位于城中村的自家“豪宅”，也算是体力劳动了一整天；老爸有事先走了，我用电动车载老妈回家。</p><p>快到家的路口，西瓜摊主吆喝“8毛一斤，8毛一斤”，还便宜2毛。遂称了一个，老板说包甜，不甜不要钱，我们就顺便让老板破开；结果西瓜瓤暗红，估计放的时间久了。老板就没了底气，嘟嚷这给我们换一个。我们摆摆手，就溜了。</p><p>把我妈送到家，我骑着车继续买瓜，发现这边路边摊只有1块一斤的了。</p><p>让老板挑一个中等的，老板反问他有个摔裂开的瓜，给我算便宜一点，我瞅了一眼，看起来比较新鲜，就勉强答应了。“8块3，你给7块算了”</p><p>到家切开，感觉颜色不太好看，也是久放的瓜，不过还比较甜，只能闭着眼睛吃了。</p><p>我妈说我是卖了个人情给他。</p><p>写此文的时候，我算了下，<code>7/8.3=0.843</code>，算作8毛5一斤。</p><p>另外，我意识到像我们这样三四线的小城市，也是有城中村的，毕竟无论购买自住，还是租住都便宜许多。便宜的原因是它没有产权证，建设成本地，供给足。</p><h4 id="没有气的电动车"><a href="#没有气的电动车" class="headerlink" title="没有气的电动车"></a>没有气的电动车</h4><p>第二天继续打扫完城中村“豪宅”，返回路上，发现电动车漏气骑不动了。</p><p>这辆“破电动”已经开了6年了，电池都换了两轮，是挺旧的了。特别是座椅完全没弹性了，平地上骑车，都膈得屁股疼。</p><p>没办法，给老爸打电话；他带来个后台支撑小拖板，可以让电动车后轮免着地推着走，让我先推回家再修；结果发现这个小拖板不好使。万幸后轮还有一点气，还能推动。没办法，我就顶着太阳推车了。</p><p>灵机一动，其实可以碰到修车店，修好再回去也一样。高温下推了10分钟，遇到了修车店。老板忙着在电脑上打扑克，火急火燎的说先打气试试，问上次打气是什么时候，打完气结果没问题，就让我继续骑，回电脑继续专心打扑克了。</p><p>所以电动车是没问题，它只是缺人打气了。我也何尝不是呢。</p><h4 id="变好吃了"><a href="#变好吃了" class="headerlink" title="变好吃了"></a>变好吃了</h4><p>这次还有一点感受是，老妈做的饭变好吃了。以前觉得是不难吃，但也不算好吃。这次明显觉得是她做的什么菜都合我的胃口，都比较好吃。觉得很神奇，我也夸做的好吃了，老妈不知是没听到，也没什么回应。</p><p>写此文时，我在想是不是因为过去一年都在吃面条的缘故，胃口变淡了，吃其他都觉得好吃呢；</p><p>吃了很久的面条和自制的简易煲仔饭，我并不觉得悲伤。虽然当时的女朋友有多次问我吃的什么，我都回答是吃的面条，感觉她都有点鄙夷你，后面就都不问了，我也感觉很平淡，没感觉是丢脸的事。</p><p>我或许没有做饭的天赋，煮饭都有过几次夹生，也只有电饭煲，和简陋的调料。</p><p>算是“自食其果”吧，我应得的，没有感觉到苦；只是在提示自己，吃这些苦也没有意义，你要尽快结束现状。</p><h4 id="一些食物"><a href="#一些食物" class="headerlink" title="一些食物"></a>一些食物</h4><p><img src="https://s1.ax1x.com/2023/07/11/pCWkQuq.jpg" alt="蒸芋头" title="蒸芋头"><br><img src="https://s1.ax1x.com/2023/07/11/pCWklD0.jpg" alt="藕带" title="藕带"></p><p>拍照的时候，我是觉得它们太好吃了，要拍照纪念存档下。<br>写此文时再看，却是叹息了，这么好吃的饭吃一次少一次，珍惜当下。<br>反而觉察出，自己心态上的低落和转变。</p><h3 id="23-7-x-思念"><a href="#23-7-x-思念" class="headerlink" title="23.7.x 思念"></a>23.7.x 思念</h3><p>说实话，和她分开的这一小段时间，是有思念的。有时重，有时轻。</p><p>更多的是让理智压制情感，否定总总过往细节。</p><p>甚至有过幻想，晚上回家时，门口会坐着一个啜泣的小女孩等我回家，我们再次和好。</p><p>因为有一个晚春的夜晚，寒意未散，我也坐着在她楼下等，只是她不注意看手机，我等到最后，才终于等到。</p><p>这次我觉得我是等不到这样的小女孩的，因为她的性格就不是如此。</p><p>所以我愈发觉得，过往的总总选择是错的。</p><p>以前我给自己的信念是，当我把那些痛苦、难过的事写下事，它们也就烟消云散，从我脑海一扫而空了。</p><p>现在，这份思念也让它戛然而止吧。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>我的日志</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>日常随笔</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>博客配置及定制</title>
+    <link href="/articles/blog_config_archive.html"/>
+    <url>/articles/blog_config_archive.html</url>
+    
+    <content type="html"><![CDATA[<h3 id="写作"><a href="#写作" class="headerlink" title="写作"></a>写作</h3><h4 id="iframe"><a href="#iframe" class="headerlink" title="iframe"></a>iframe</h4><p>在文章中插入 iframe。</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">&#123;% <span class="hljs-selector-tag">iframe</span> url <span class="hljs-selector-attr">[width]</span> <span class="hljs-selector-attr">[height]</span> %&#125;<br></code></pre></td></tr></table></figure><h4 id="Image"><a href="#Image" class="headerlink" title="Image"></a>Image</h4><p>在文章中插入指定大小的图片。</p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">&#123;% img [<span class="hljs-keyword">class</span> <span class="hljs-symbol">names</span>] /<span class="hljs-symbol">path</span>/<span class="hljs-symbol">to</span>/<span class="hljs-symbol">image</span> [<span class="hljs-symbol">width</span>] [<span class="hljs-symbol">height</span>] &#x27;&quot;<span class="hljs-symbol">title</span> <span class="hljs-symbol">text</span>&quot; &quot;<span class="hljs-symbol">alt</span> <span class="hljs-symbol">text</span>&quot;&#x27; %&#125;<br></code></pre></td></tr></table></figure><h4 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;note note-info&quot;</span>&gt;</span>提示信息<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure><h3 id="文章配置"><a href="#文章配置" class="headerlink" title="文章配置"></a>文章配置</h3><h4 id="文章markdown文档支持的字段头"><a href="#文章markdown文档支持的字段头" class="headerlink" title="文章markdown文档支持的字段头"></a>文章markdown文档支持的字段头</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">author:</span> <span class="hljs-string">金开</span><br><span class="hljs-attr">title:</span> <span class="hljs-string">Hello</span> <span class="hljs-string">World</span><br><span class="hljs-attr">urlname:</span> <span class="hljs-string">Hello_World</span><br><span class="hljs-attr">date:</span> <span class="hljs-number">2023-06-29 19:58:29</span><br><span class="hljs-attr">updated:</span> <span class="hljs-number">2023-06-30 21:10:17</span><br><span class="hljs-attr">categories:</span> [<span class="hljs-string">其他</span>]<br><span class="hljs-attr">category_bar:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">tags:</span> [<span class="hljs-string">标签</span>]<br><span class="hljs-attr">excerpt:</span> <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-attr">index_img:</span> <span class="hljs-string">/img/default.png</span><br><span class="hljs-attr">comment:</span> <span class="hljs-literal">true</span><br><span class="hljs-attr">sticky:</span> <span class="hljs-number">10</span><br><span class="hljs-attr">hide:</span> <span class="hljs-literal">false</span><br><span class="hljs-comment"># 禁用布局</span><br><span class="hljs-attr">layout:</span> <span class="hljs-literal">false</span><br><span class="hljs-comment"># 禁止生成本文章站点地图链接</span><br><span class="hljs-attr">sitemap:</span> <span class="hljs-literal">false</span><br></code></pre></td></tr></table></figure><h3 id="主题修改"><a href="#主题修改" class="headerlink" title="主题修改"></a>主题修改</h3><h4 id="公共cdn修改"><a href="#公共cdn修改" class="headerlink" title="公共cdn修改"></a>公共cdn修改</h4><p>将所依赖的js库等，切换为如下几家</p><ul><li>Bootstrap公共库：<code>https://www.bootcdn.cn/</code></li><li>又拍云：<code>https://jscdn.upai.com/</code></li><li>CDNJS：<code>https://cdnjs.com/</code></li><li>七牛云：<code>https://www.staticfile.org/</code> （推荐）</li><li>unpkg：<code>https://unpkg.com</code></li></ul><h3 id="waline定制"><a href="#waline定制" class="headerlink" title="waline定制"></a>waline定制</h3><h4 id="waline样式定制"><a href="#waline样式定制" class="headerlink" title="waline样式定制"></a>waline样式定制</h4><blockquote><p>新增自定义样式文件 a8.css，添加到主题配置文件中 <code>custom_css: css/a8.css</code></p></blockquote><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-comment">/* waline  */</span><br><span class="hljs-comment">/* 隐藏表情包等  */</span><br><span class="hljs-selector-tag">div</span><span class="hljs-selector-class">.wl-actions</span> &#123;<br>    <span class="hljs-attribute">display</span>:none;<br>&#125;<br><br><span class="hljs-comment">/* 隐藏agent  */</span><br><span class="hljs-selector-class">.wl-card</span> <span class="hljs-selector-class">.wl-meta</span> &gt; <span class="hljs-selector-tag">span</span><span class="hljs-selector-class">.wl-browser</span> &#123;<br>    <span class="hljs-attribute">display</span>:none;<br>&#125;<br><br><span class="hljs-selector-class">.wl-card</span> <span class="hljs-selector-class">.wl-meta</span> &gt; <span class="hljs-selector-tag">span</span><span class="hljs-selector-class">.wl-os</span> &#123;<br>    <span class="hljs-attribute">display</span>:none;<br>&#125;<br><br><span class="hljs-comment">/* 隐藏评论排序切换  */</span><br><span class="hljs-selector-tag">ul</span><span class="hljs-selector-class">.wl-sort</span> &#123;<br>    <span class="hljs-attribute">display</span>:none;<br>&#125;<br><br><span class="hljs-comment">/* 隐藏登录按钮  */</span><br><span class="hljs-selector-tag">div</span><span class="hljs-selector-class">.wl-info</span> <span class="hljs-selector-tag">button</span><span class="hljs-selector-class">.wl-btn</span><span class="hljs-selector-pseudo">:nth-child</span>(<span class="hljs-number">2</span>) &#123;<br>    <span class="hljs-attribute">display</span>:none;<br>&#125;<br><br><span class="hljs-comment">/* 禁用评论区a标签链接跳转  */</span><br><span class="hljs-selector-tag">div</span><span class="hljs-selector-class">.wl-content</span> <span class="hljs-selector-tag">p</span> <span class="hljs-selector-tag">a</span> &#123;<br>    <span class="hljs-attribute">pointer-events</span>: none;<br>&#125;<br><br><span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.wl-nick</span> &#123;<br>    <span class="hljs-attribute">pointer-events</span>: none;<br>&#125;<br><br><span class="hljs-comment">/* 调整评论区昵称字体大小  */</span><br><span class="hljs-selector-tag">div</span><span class="hljs-selector-class">.wl-header-item</span> &gt; <span class="hljs-selector-tag">label</span> &#123;<br>    <span class="hljs-attribute">font-size</span>: .<span class="hljs-number">85em</span>;<br>&#125;<br><br><span class="hljs-selector-id">#wl-nick</span> &#123;<br>    <span class="hljs-attribute">font-size</span>: .<span class="hljs-number">80em</span>;<br>&#125;<br><br><span class="hljs-selector-id">#wl-mail</span> &#123;<br>    <span class="hljs-attribute">font-size</span>: .<span class="hljs-number">80em</span>;<br>&#125;<br><br><span class="hljs-selector-tag">div</span><span class="hljs-selector-class">.about-avatar</span> &#123;<br>    <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">0rem</span>;<br>&#125;<br></code></pre></td></tr></table></figure><h4 id="waline功能定制"><a href="#waline功能定制" class="headerlink" title="waline功能定制"></a>waline功能定制</h4><blockquote><p>修改waline.ejs</p></blockquote><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-title class_">Fluid</span>.<span class="hljs-property">utils</span>.<span class="hljs-title function_">createScript</span>(<span class="hljs-string">&#x27;&lt;%= url_join(theme.static_prefix.waline, &#x27;</span>waline.<span class="hljs-property">min</span>.<span class="hljs-property">js</span><span class="hljs-string">&#x27;) %&gt;&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-comment">/* 自定义等级标签；label加*星号 */</span><br>  <span class="hljs-keyword">const</span> locale = &#123;<br>    <span class="hljs-attr">nick</span>: <span class="hljs-string">&#x27;昵称*&#x27;</span>,<br>    <span class="hljs-attr">mail</span>: <span class="hljs-string">&#x27;邮箱*&#x27;</span>,<br>    <span class="hljs-attr">level0</span>: <span class="hljs-string">&#x27;Level 0&#x27;</span>,<br>    <span class="hljs-attr">level1</span>: <span class="hljs-string">&#x27;Level 1&#x27;</span>,<br>    <span class="hljs-attr">level2</span>: <span class="hljs-string">&#x27;Level 2&#x27;</span>,<br>    <span class="hljs-attr">level3</span>: <span class="hljs-string">&#x27;Level 3&#x27;</span>,<br>    <span class="hljs-attr">level4</span>: <span class="hljs-string">&#x27;Level 4&#x27;</span>,<br>    <span class="hljs-attr">level5</span>: <span class="hljs-string">&#x27;Level 5&#x27;</span><br>  &#125;;<br>  <span class="hljs-keyword">var</span> options = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">assign</span>(<br>    &lt;%- <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(theme.<span class="hljs-property">waline</span> || &#123;&#125;) %&gt;,<br>    &#123;<br>      <span class="hljs-attr">el</span>: <span class="hljs-string">&#x27;#waline&#x27;</span>,<br>      <span class="hljs-attr">path</span>: &lt;%= theme.<span class="hljs-property">waline</span>.<span class="hljs-property">path</span> %&gt;,<br>      locale,<br>      <span class="hljs-attr">pageSize</span>: <span class="hljs-number">10</span>,<br>      <span class="hljs-comment">/* 禁用图片上传 */</span><br>      <span class="hljs-attr">imageUploader</span>: <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">highlighter</span>: <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">texRenderer</span>: <span class="hljs-literal">false</span>,<br>      <span class="hljs-attr">copyright</span>: <span class="hljs-literal">false</span>,<br>    &#125;<br>  )<br>  <span class="hljs-title class_">Waline</span>.<span class="hljs-title function_">init</span>(options);<br><br>  <span class="hljs-title class_">Fluid</span>.<span class="hljs-property">utils</span>.<span class="hljs-title function_">waitElementVisible</span>(<span class="hljs-string">&#x27;#waline&#x27;</span>, <span class="hljs-function">() =&gt;</span> &#123;<br>    $(<span class="hljs-string">&quot;#wl-nick&quot;</span> ).<span class="hljs-title function_">attr</span>(<span class="hljs-string">&quot;placeholder&quot;</span> , <span class="hljs-string">&quot;nickname&quot;</span> );<br>    $(<span class="hljs-string">&quot;#wl-mail&quot;</span> ).<span class="hljs-title function_">attr</span>(<span class="hljs-string">&quot;placeholder&quot;</span> , <span class="hljs-string">&quot;email&quot;</span> );<br>    $(<span class="hljs-string">&quot;#wl-edit&quot;</span> ).<span class="hljs-title function_">attr</span>(<span class="hljs-string">&quot;placeholder&quot;</span> , <span class="hljs-string">&quot;欢迎评论\r\n（审核通过后，评论才可见）&quot;</span> );<br>  &#125;);<br><br>  <span class="hljs-comment">/*</span><br><span class="hljs-comment">    Fluid.utils.waitElementVisible(&#x27;#waline .vcontent&#x27;, () =&gt; &#123;</span><br><span class="hljs-comment">        var imgSelector = &#x27;#waline .vcontent img:not(.vemoji)&#x27;;</span><br><span class="hljs-comment">        Fluid.plugins.imageCaption(imgSelector);</span><br><span class="hljs-comment">        Fluid.plugins.fancyBox(imgSelector);</span><br><span class="hljs-comment">    &#125;);</span><br><span class="hljs-comment">  */</span><br>&#125;);<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>博客技术</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>fluid</tag>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>博客规划和更新日志</title>
+    <link href="/articles/blog_plan_and_change_log.html"/>
+    <url>/articles/blog_plan_and_change_log.html</url>
+    
+    <content type="html"><![CDATA[<h3 id="博客规划"><a href="#博客规划" class="headerlink" title="博客规划"></a>博客规划</h3><h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><p>计划文章分类如下：</p><ul><li>Java相关（技术分栏，后期会开新的）</li><li>博客技术（记录博客建设技术）</li><li>生活感悟（偶然所思所得、收藏摘录）</li><li>我的日志（我的生活瞬间，甜的还是咸的，我都能吃）</li><li>其他（默认分类，杂乱无章的文章）</li></ul><h3 id="更新日志"><a href="#更新日志" class="headerlink" title="更新日志"></a>更新日志</h3><h4 id="23-7-12-增加向Bing-x2F-百度推送新文章链接（便于SEO）"><a href="#23-7-12-增加向Bing-x2F-百度推送新文章链接（便于SEO）" class="headerlink" title="23.7.12 增加向Bing&#x2F;百度推送新文章链接（便于SEO）"></a>23.7.12 增加向Bing&#x2F;百度推送新文章链接（便于SEO）</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">npm install <span class="hljs-attr">--save</span> hexo-submit-urls-<span class="hljs-selector-tag">to</span>-search-engine<br></code></pre></td></tr></table></figure><h4 id="23-7-12-验证Bing-x2F-百度抓取本站"><a href="#23-7-12-验证Bing-x2F-百度抓取本站" class="headerlink" title="23.7.12 验证Bing&#x2F;百度抓取本站"></a>23.7.12 验证Bing&#x2F;百度抓取本站</h4><p>百度、Bing 必应 抓取本站正常</p><h4 id="23-7-11-提交站点地图"><a href="#23-7-11-提交站点地图" class="headerlink" title="23.7.11 提交站点地图"></a>23.7.11 提交站点地图</h4><p>向Bing、百度提交网站地图（便于SEO）</p><h4 id="23-7-5-增加站点地图"><a href="#23-7-5-增加站点地图" class="headerlink" title="23.7.5 增加站点地图"></a>23.7.5 增加站点地图</h4><p>增加sitemap网站地图（便于SEO）</p><h4 id="23-6-30-网站上线"><a href="#23-6-30-网站上线" class="headerlink" title="23.6.30 网站上线"></a>23.6.30 网站上线</h4><p>网站上线</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>其他</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>博客规划</tag>
+      
+      <tag>更新日志</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>金开的感悟-山水有相逢-2023</title>
+    <link href="/articles/mountains_meet_rivers_2023.html"/>
+    <url>/articles/mountains_meet_rivers_2023.html</url>
+    
+    <content type="html"><![CDATA[<p class="note note-info">2023年的日常随笔</p><h3 id="23-07-13-博客日志不是流水账"><a href="#23-07-13-博客日志不是流水账" class="headerlink" title="23.07.13 博客日志不是流水账"></a>23.07.13 博客日志不是流水账</h3><p>日志除了需要有记录，还需要有思考（知识价值），最好还有点乐趣。</p><h3 id="23-07-12-在血汗工厂的收获"><a href="#23-07-12-在血汗工厂的收获" class="headerlink" title="23.07.12 在血汗工厂的收获"></a>23.07.12 在血汗工厂的收获</h3><p>偶尔发呆，回想在西湖血汗工厂的工作，最大的收获是理解了“产品”这两个字；<br>产品是什么：解决用户需求的完整功能<br>产品怎么产生：外部用户反馈+内部探索需求功能<br>产品和开发的关系：产品是目标，开发是现实<br>产品怎么传播：推广引流（软文+买量）+口碑传播<br>产品的收益来源：广告变现+导流变现+充值VIP</p><p>开发为什不做产品：<br>产品是整条生产、销售、运营、售后线，本质就是开（创业）公司了。<br>需要能力覆盖、学习成本、时间成本，金钱成本反而不高。<br>最后的收益，却是难以预料的，所以很少有人能做。</p><h3 id="23-07-x-山坳"><a href="#23-07-x-山坳" class="headerlink" title="23.07.x 山坳"></a>23.07.x 山坳</h3><p><img src="https://s1.ax1x.com/2023/07/05/pCyU5R0.jpg" alt="山里人家" title="封面图 山里人家"><br>封面故事</p><p>23年7月初回老家时动车上拍的，低沉的情绪中，偶见窗外山峦起伏，山坳的气象格外秀丽（照片所不能企及），就有一种哇的一声的那种惊喜！</p><h3 id="23-06-x-人间值得"><a href="#23-06-x-人间值得" class="headerlink" title="23.06.x 人间值得"></a>23.06.x 人间值得</h3><p>“人生不必太用力，坦率地接受每一天” —— 中村恒子</p><br /><p><img src="https://s1.ax1x.com/2023/07/05/pCyTmpq.jpg" alt="我决定给自己一点时间" title="我决定给自己一点时间"></p><p>“我决定给自己一点时间” —— 李彦姃</p><h3 id="23-02-22-花苞"><a href="#23-02-22-花苞" class="headerlink" title="23.02.22 花苞"></a>23.02.22 花苞</h3><p>买回来的鲜花的花苞并不会绽放，这种说法是错误的；过不了几天，在静静的夜里，它们会绽放自己的美丽。 —— 金开</p><h3 id="21-05-x"><a href="#21-05-x" class="headerlink" title="21.05.x"></a>21.05.x</h3><p>“我们不是来改变世界的，我们就是世界！” —— Byebye</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>生活感悟</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>日常随笔</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
