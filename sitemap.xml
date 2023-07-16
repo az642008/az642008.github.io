@@ -2,16 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://az642008.top/articles/blog_plan_and_change_log.html</loc>
+    <loc>https://az642008.top/articles/tech_blog_hexo_util_fail_repair.html</loc>
     
-    <lastmod>2023-07-14</lastmod>
+    <lastmod>2023-07-16</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://az642008.top/articles/20230713_distributed_limiter_and_circuit.html</loc>
+    <loc>https://az642008.top/articles/internet_product_operation_positon_explain.html</loc>
+    
+    <lastmod>2023-07-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://az642008.top/articles/blog_plan_and_change_log.html</loc>
+    
+    <lastmod>2023-07-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://az642008.top/articles/blog_config_archive.html</loc>
+    
+    <lastmod>2023-07-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://az642008.top/articles/distributed_limiter_and_circuit.html</loc>
     
     <lastmod>2023-07-13</lastmod>
     
@@ -47,15 +74,6 @@
   </url>
   
   <url>
-    <loc>https://az642008.top/articles/blog_config_archive.html</loc>
-    
-    <lastmod>2023-07-05</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://az642008.top/about/index.html</loc>
     
     <lastmod>2023-06-30</lastmod>
@@ -67,7 +85,7 @@
 
   <url>
     <loc>https://az642008.top/</loc>
-    <lastmod>2023-07-14</lastmod>
+    <lastmod>2023-07-16</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
